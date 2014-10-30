@@ -12,11 +12,13 @@ Let's imagine we want to develop a program to play the card game `War`. `War` is
 
 However, we also plan to create the game `Set`, which uses specialized `SetCard` objects with symbols in various quantities and colors on them (e.g. 3 orange squiggles, 2 blue circles, 1 red square, etc.)
 
-A light bulb goes off: . Why not create a `Card` class that can be used with any card game. `Card` objects all have certain similar properties and behaviors. They have `content` on their front. They are able to be `flip`ed over. This way we only have to build out that functionality in one place. We can then create specific classes for `PlayingCard` and `SetCard` that implement the specific content of these games.
+And then a light bulb goes off: Wouldn't it be great if we could define the behavior and attributes of a card that is the same across all types of cards? Well, you are in luck. We can do this with inheritance!
 
-To take the example further, combined, a set of cards make a `Deck`. Regardless of what kind of `Card`, a `Deck` of `Card` objects can be `shuffle`d and `deal`t! Now we can subclass our `Deck` as a `PlayingCardDeck` and as a `SetCardDeck`.
+Whe can create a `Card` class that may be used as the "base" class for any type of card. `Card` objects all have certain similar properties and behaviors. They have `content` on their front. They are able to be `flip`ed over. This way we only have to build out that functionality in one place. We can then create specific classes for `PlayingCard` and `SetCard` that implement the specific content of these games.
 
-Let's take a look at the interface for each of the card objects we have described thus far to further our explanation.
+To take the example further, combined, a set of cards make a `Deck`. Regardless of what kind of `Card`, a `Deck` of `Card` objects can be `shuffle`d and `deal`t! And it contains an `NSArray` of `Card` objects. Now we can subclass our `Deck` as a `PlayingCardDeck` and as a `SetCardDeck`. We won't take this part of the example further in this reading, but feel free to attempt building it as practice for a better understanding of inheritance.
+
+That said, let's take a look at the interface for each of the card objects we have described thus far to further our explanation.
 
 
 ```objc
@@ -58,7 +60,10 @@ Let's take a look at the interface for each of the card objects we have describe
 @end
 ```
 
-As seen in the above interface code snippets, `PlayingCard` and `SetCard` both inherit from `Card` (while `Card` inherits from `NSObject`). This means that they both have the content property and the ability to `flipCard`. The remainder of their properties are unique to the type of card they are. Note that "contents" is an abstract property in the `Card` class, as no undefined `Card` will have specific `contents`.
+As seen in the above interface code snippets, `PlayingCard` and `SetCard` both inherit from `Card` (while `Card` inherits from `NSObject`). This is evident from the syntax in the .h files. At the point of defining the `@interface` we see the object we inherit from after the `:`. Much of the time, you'll see `NSObject` following the `:` as just about all objects inherit from the `NSObject` class.
+
+
+By inheriting from `Card` both `PlayingCard` and `SetCard` have the content property and the ability to `flipCard`. The remainder of their properties are unique to the type of card they are. Note that "contents" is an abstract property in the `Card` class, as no undefined `Card` will have specific `contents`.
 
 ##Overriding methods
 
@@ -103,7 +108,7 @@ First, the superclass initializers:
 
 ```
 
-And the less perfect subclass initializer:
+And the less perfect subclass initializer (remember, `Raccoon` inherits from `Animal`):
 
 ```objc
 
