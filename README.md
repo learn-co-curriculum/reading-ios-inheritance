@@ -72,7 +72,6 @@ In order to add `content` to each subclass of `Card`, we need to "override" the 
 ```
 
 ##Initializers with inheritance
-```
 
 Just as with all objects that inherit from another class, the methods of the super class are available in that subclass. Initializers are no different. However, there is a correct and an incorrect way to write additional convenience initializers in a subclass.
 
