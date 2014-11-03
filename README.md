@@ -14,7 +14,7 @@ However, we also plan to create the game `Set`, which uses specialized `SetCard`
 
 And then a light bulb goes off: Wouldn't it be great if we could define the behavior and attributes of a card that is the same across all types of cards? Well, you are in luck. We can do this with inheritance!
 
-Whe can create a `Card` class that may be used as the "base" class for any type of card. `Card` objects all have certain similar properties and behaviors. They have `content` on their front. They are able to be `flip`ed over. This way we only have to build out that functionality in one place. We can then create specific classes for `PlayingCard` and `SetCard` that implement the specific content of these games.
+We can create a `Card` class that may be used as the "base" class for any type of card. `Card` objects all have certain similar properties and behaviors. They have `content` on their front. They are able to be `flip`ed over. This way we only have to build out that functionality in one place. We can then create specific classes for `PlayingCard` and `SetCard` that implement the specific content of these games.
 
 To take the example further, combined, a set of cards make a `Deck`. Regardless of what kind of `Card`, a `Deck` of `Card` objects can be `shuffle`d and `deal`t! And it contains an `NSArray` of `Card` objects. Now we can subclass our `Deck` as a `PlayingCardDeck` and as a `SetCardDeck`. We won't take this part of the example further in this reading, but feel free to attempt building it as practice for a better understanding of inheritance.
 
