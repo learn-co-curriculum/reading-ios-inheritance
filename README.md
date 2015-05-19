@@ -1,84 +1,64 @@
 #Inheritance
 
-##Classical inheritance
+##What is Inheritance?
+Inheritance is the concept of having one class that is based on another pre-existing class (known as the *parent* or *super* class). Conversely, this *child* class has all of the properties and methods its parent has because the child **inherits** them from it. This is also called making a *subclass*. 
 
-Inheritance is the idea that one class can be derived from another, pre-existing "base" class, "super" class, or "parent" class (alternative names for the same thing). By "derived", we mean that a class shares the vast majority of the properties and behavior of another class, and can be described using the "is a" language. (e.g. A `SportsCar` is an `Automobile`; an `Automobile` is a `Vehicle`). A class that inherits from another class usually has added properties and behavior, and potentially "overrides" some of its base class' behavior. In fact, properly constructed base classes will often have "abstract" behaviors to be necessarily "overridden" with implementation by their "subclass" or "child" class.
+**Subclassing** (making a subclass) allows us to add more specific properties and methods on top of a more general base class. We can also **override** pre-existing properties or method to better suit the subclass. This allows us to specialize classes based on our needs.
 
-A lot of inheritance vocabulary has been introduced in the above paragraph, so let's go through it all in more detail, via example.
+For example, we could start with a `Dog` class, but eventually subclass it into `GoldenRetriever`, `GreatDane`, and `Yorkie`, each of which has their own characteristics (properties) and abilities (methods) on top of what all `Dog`s share in common. They all know the `bark` method (prints `@"woof!"`) because it is defined in the `Dog` class that they all inherit from. However, the `Yorkie` class has its own definition for `bark` (prints `@"yip!"`), which *overrides* the `bark` method it inherited. 
 
-A classic example of inheritance used in programming courses around the world is the card game model.
+##Why Is This Useful?
+Inheritance allows us to highly organize our classes and avoid re-writing code. It basically allows us to define a first class, then define new classes from the perspective "this will be the first class *and*..." or "same as the first class, *but*...". It also helps us break down complex objects into basic parts, making them easier to conceptualize and write. 
 
-Let's imagine we want to develop a program to play the card game `War`. `War` is played with a standard deck of playing cards. So, we'll want to create a `PlayingCard` object. 
+Imagine you were making a slew of car-based classes and were trying to be accurate when specifying the model. You can include everything they share in the `Car` super class and specify what each of their unique properties are in their respective subclass. For example, `hasAllWheelDrive == YES` for a `MercedesBenz` whereas `hasAllWheelDrive == NO` for a `HondaCivic`. A `MercedesBenz` could also have a `sunroof` property whereas some other subclasses would not.
 
-However, we also plan to create the game `Set`, which uses specialized `SetCard` objects with symbols in various quantities and colors on them (e.g. 3 orange squiggles, 2 blue circles, 1 red square, etc.)
+All of these things said, **it's not always necessary to make a parent for your classes** to share; its common that classes don't have enough in common to warrant a super class. Inheritance is a tool, not a rule. 
 
-And then a light bulb goes off: Wouldn't it be great if we could define the behavior and attributes of a card that is the same across all types of cards? Well, you are in luck. We can do this with inheritance!
+##How Does A Class Inherit?
+In any class's **header** file (*YourCustomClass*.h) there is a **@interface** for the class. It follows the format `@interface YourCustomClass : AParentClass`, signifying that `YourCustomClass` inherits from `AParentClass`. Open any .h file in xcode and you should be able to find something like this:
 
-We can create a `Card` class that may be used as the "base" class for any type of card. `Card` objects all have certain similar properties and behaviors. They have `content` on their front. They are able to be `flip`ed over. This way we only have to build out that functionality in one place. We can then create specific classes for `PlayingCard` and `SetCard` that implement the specific content of these games.
+```objective-c
+// Dog.h
+@interface Dog : NSObject
 
-To take the example further, combined, a set of cards make a `Deck`. Regardless of what kind of `Card`, a `Deck` of `Card` objects can be `shuffle`d and `deal`t! And it contains an `NSArray` of `Card` objects. Now we can subclass our `Deck` as a `PlayingCardDeck` and as a `SetCardDeck`. We won't take this part of the example further in this reading, but feel free to attempt building it as practice for a better understanding of inheritance.
-
-That said, let's take a look at the interface for each of the card objects we have described thus far to further our explanation.
-
-
-```objc
-@interface FISCard : NSObject
-
-@property (strong, nonatomic) NSString *content;
-
-- (void)flipCard;
+@property (strong, nonatomic) NSString *name;
+- (void) bark;
 
 @end
 ```
+This is the public interface for the `Dog` class — since its in the .h, any methods and properties listed here are considered **public** (*more on public vs. private later*). More importantly, note that the class inherits from `NSObject`, which you can consider the basic template for all objects since almost every single object eventually inherits from it. **Custom classes you make "from scratch" should subclass** `NSObject`. 
 
-```objc
-#import <UIKit/UIKit.h>
-#import "FISCard.h"
+Here's what a header file for `GoldenRetriever` (a subclass of `Dog`) would look like: 
 
-@interface FISPlayingCard : FISCard
+```obj-c
+// GoldenRetriever.h
+#import Dog.h
 
-@property (strong, nonatomic) NSString *suit;
-@property (strong, nonatomic) NSNumber *rank;
+@interface GoldenRetriever : Dog
 
-- (instancetype)initWithContent:(NSString *)content;
+@property (strong, nonatomic) DogToy *favoriteToy;
+- (DogToy *) fetch; 
 
-@end
+@ end
 ```
+First, we have to `#import Dog.h`, which gives this class access to the `Dog` class. It has a new property and method, as well as the ones it inherits — we can see that it inherits from `Dog`, which means it includes everything that we saw listed in 'Dog.h'. This inheritance can also be seen as a chain: *think `GoldenRetriever` is a `Dog` which is an `NSObject`*. (And remember, almost everything is ultimately an `NSObject`).
+
+##Overriding Methods
+
+In order to change what the `bark` method that all `Dog` subclasses inherit actually does, the subclass must **override** that method. To do this in Objective-C, you just simply rewrite it! So we could have the following definition in our `Yorkie` class:
 
 ```objc
-#import <UIKit/UIKit.h>
-#import "FISCard.h"
+// Yorkie.m
 
-@interface FISSetCard : FISCard
-
-@property (strong, nonatomic) NSString *symbol;
-@property (strong, nonatomic) NSNumber *quantity;
-@property (strong, nonatomic) NSNumber *color;
-
-- (instancetype)initWithContent:(NSString *)content;
-
-@end
-```
-
-As seen in the above interface code snippets, `PlayingCard` and `SetCard` both inherit from `Card` (while `Card` inherits from `NSObject`). This is evident from the syntax in the .h files. At the point of defining the `@interface` we see the object we inherit from after the `:`. Much of the time, you'll see `NSObject` following the `:` as just about all objects inherit from the `NSObject` class.
-
-
-By inheriting from `Card` both `PlayingCard` and `SetCard` have the content property and the ability to `flipCard`. The remainder of their properties are unique to the type of card they are. Note that "contents" is an abstract property in the `Card` class, as no undefined `Card` will have specific `contents`.
-
-##Overriding methods
-
-In order to add `content` to each subclass of `Card`, we need to "override" the `content` property's getter. Unlike languages in which you must use a keyword to indicate an override, in Objective-C, you can simply rewrite the methods as needed. So in this case we might have the following method in our `PlayingCard` implementation.
-
-```objc
-- (NSString *)contents {
-	_content = [NSString stringWithFormat:@"%@ %@",self.rank, self.suit];
-	return _content;
+- (void)bark {
+	NSLog(@"Yip!");
 }
 ```
+Now no matter what `bark` from a parent class would do, all instances of the `Yorkie` class do this instead.
 
-##Initializers with inheritance
+##Initializers with Inheritance (Advanced)
 
-Just as with all objects that inherit from another class, the methods of the super class are available in that subclass. Initializers are no different. However, there is a correct and an incorrect way to write additional convenience initializers in a subclass.
+Now we know that the methods of a super class are available in any of its subclasses, and that includes initializers. However, there is a correct and an incorrect way to write additional convenience initializers in a subclass.
 
 Let's take an example of an incorrectly created convenience initializer in a subclass.
 
@@ -94,7 +74,6 @@ First, the superclass initializers:
 	self = [super init];
 
 	if (self) {
-
 		_name = name;
 	}
 
@@ -114,7 +93,7 @@ And the less perfect subclass initializer (remember, `Raccoon` inherits from `An
 
 //Raccoon.m
 
-- (instancetype)initWithName:(NSString *)name stripeColor {
+- (instancetype)initWithName:(NSString *)name stripeColor:(UIColor*) stripeColor {
 	
 	self = [super init];
 
@@ -129,7 +108,10 @@ And the less perfect subclass initializer (remember, `Raccoon` inherits from `An
 
 ```
 
-The issue with the above convenience initializer is that it does two checks. When we initialize the `Raccoon` object, it first goes through the `init` default initializer and `initWithName:` convenience initializer in the `Animal` class, setting the name of the `Raccoon` to be an empty `NSString`. Then it comes back to our `initWithName:stripeColor:` method and replaces the values for `name` and `stripeColor` to the values assigned as part of the initializer's method call. This is more code running than should be. 
+The issue with this `Racoon` convenience initializer is that it does two things: 
+   
+   1. When we `[super init]` in `Racoon`, we're calling the default initializer from `Animal`, which consequently calls the `initWithName:` convenience initializer — setting the name of the `Raccoon` to be `@""`, an empty `NSString`. 
+   2. Then it comes back to our `initWithName:stripeColor:` method and replaces the values for `_name` and `_stripeColor` to the values passed into the method call. **This is more code running than should be.** 
 
 Instead, we should call the designated initializer of our super class, like so:
 
@@ -139,7 +121,7 @@ Instead, we should call the designated initializer of our super class, like so:
 
 //Raccoon.m
 
-- (instancetype)initWithName:(NSString *)name StripeColor:(NSString *)stripeColor {
+- (instancetype)initWithName:(NSString *)name stripeColor:(UIColor*)stripeColor {
 	
 	self = [super initWithName:name];
 
@@ -150,7 +132,6 @@ Instead, we should call the designated initializer of our super class, like so:
 	return self;
 }
 ```
-
 Now we have avoided unnecessary calls to the default initializer of our superclass (or any convenience initializers that are not the designated initializer).
 
 
