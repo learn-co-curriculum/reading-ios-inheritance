@@ -17,7 +17,7 @@ All of these things said, **it's not always necessary to make a parent for your 
 ##How Does A Class Inherit?
 In any class's **header** file (*YourCustomClass*.h) there is a **@interface** for the class. It follows the format `@interface YourCustomClass : AParentClass`, signifying that `YourCustomClass` inherits from `AParentClass`. Open any .h file in xcode and you should be able to find something like this:
 
-```objective-c
+```objective_c
 // Dog.h
 @interface Dog : NSObject
 
@@ -30,7 +30,7 @@ This is the public interface for the `Dog` class — since its in the .h, any me
 
 Here's what a header file for `GoldenRetriever` (a subclass of `Dog`) would look like: 
 
-```obj-c
+```objective_c
 // GoldenRetriever.h
 #import Dog.h
 
@@ -47,7 +47,7 @@ First, we have to `#import Dog.h`, which gives this class access to the `Dog` cl
 
 In order to change what the `bark` method that all `Dog` subclasses inherit actually does, the subclass must **override** that method. To do this in Objective-C, you just simply rewrite it! So we could have the following definition in our `Yorkie` class:
 
-```objc
+```objective_c
 // Yorkie.m
 
 - (void)bark {
@@ -65,7 +65,7 @@ Let's take an example of an incorrectly created convenience initializer in a sub
 First, the superclass initializers:
 
 ######Example
-```objc
+```objective_c
 
 //Animal.m
 
@@ -89,7 +89,7 @@ First, the superclass initializers:
 
 And the less perfect subclass initializer (remember, `Raccoon` inherits from `Animal`):
 
-```objc
+```objective_c
 
 //Raccoon.m
 
@@ -117,7 +117,7 @@ Instead, we should call the designated initializer of our super class, like so:
 
 ######Example
 
-```objc
+```objective_c
 
 //Raccoon.m
 
