@@ -1,5 +1,3 @@
-##README DEPRECATED 8/17/2015
-
 #Inheritance
 
 ##What is Inheritance?
