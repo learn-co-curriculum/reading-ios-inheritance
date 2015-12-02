@@ -135,3 +135,5 @@ Instead, we should call the designated initializer of our super class, like so:
 Now we have avoided unnecessary calls to the default initializer of our superclass (or any convenience initializers that are not the designated initializer).
 
 
+
+<a href='https://learn.co/lessons/reading-ios-inheritance' data-visibility='hidden'>View this lesson on Learn.co</a>
