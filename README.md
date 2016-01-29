@@ -136,4 +136,4 @@ Now we have avoided unnecessary calls to the default initializer of our supercla
 
 
 
-<a href='https://learn.co/lessons/reading-ios-inheritance' data-visibility='hidden'>View this lesson on Learn.co</a>
+<p data-visibility='hidden'>View <a href='https://learn.co/lessons/reading-ios-inheritance' title='Inheritance'>Inheritance</a> on Learn.co and start learning to code for free.</p>
